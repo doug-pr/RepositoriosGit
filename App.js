@@ -25,6 +25,10 @@ export default class App extends Component {
     repos:[],
   };
 
+  async componentDidMount(){
+    const repos = JSON.parse(await AsyncStorage.getItem('repositories')) || [];
+  }
+
 _addRepository = async (newrepotext) => {
   const repoCall = await fetch(`http://api.github.com/repos/${newRepoText}`);
   const response = await repoCall.json();
@@ -65,7 +69,7 @@ _addRepository = async (newrepotext) => {
         <NewRepoModal
           onCancel = {() => this.setState({ modalVisible: false })} 
           onAdd = {() => this._addRepository()}
-          visible={this.state.modalVisible}/>
+          visible={this.state.modalVisible} />
       </View>
     );
   }
@@ -91,7 +95,7 @@ const styles = StyleSheet.create({
   headerButton: {
     fontSize: 24,
     fontWeight: 'bold',
-  }
+  },
 
   headerText: {
     fontSize: 16,
